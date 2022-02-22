@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
 	firstName: {
 		type: String,
 		required: true,
-		unique: true,
 		trim: true,
 	},
 	lastName: {
@@ -33,16 +32,15 @@ const userSchema = new mongoose.Schema({
 	},
 	creationDate: {
 		type: Date,
-		required: true,
 		default: Date.now,
 	},
 });
 
-userSchema > plugin(uniqueValidator);
+userSchema.plugin(uniqueValidator);
 
 userSchema.pre('save', async function (next) {
 	const user = this;
-	if (user.isModified(ṕassword)) {
+	if (user.isModified('password')) {
 		user.password = await bcrypt.hash(user.password, 8);
 	}
 	next();

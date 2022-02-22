@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
+const mongoSanitize = require('express-mongo-sanitize');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const userRouter = require('./router/user');
+const topicRouter = require('./router/topic');
 require('dotenv').config();
 
 const app = express();
@@ -16,6 +18,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(mongoSanitize());
 
 mongoose
 	.connect(
@@ -24,4 +27,6 @@ mongoose
 	.then(() => console.log('connection successful'))
 	.catch(() => console.log('connection failed'));
 
+app.use('/user', userRouter);
+app.use('/topic', topicRouter);
 module.exports = app;
