@@ -10,7 +10,7 @@ exports.register = async (req, res) => {
 		res.send({
 			userId: user._id,
 			token: jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-				expiresIn: '7d',
+				expiresIn: 60 * 60 * 24,
 			}),
 		});
 	} catch (e) {
@@ -31,7 +31,7 @@ exports.login = async (req, res) => {
 		res.status(200).json({
 			userId: user._id,
 			token: jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-				expiresIn: '7d',
+				expiresIn: 60 * 60 * 24,
 			}),
 		});
 	} catch (e) {
@@ -39,11 +39,22 @@ exports.login = async (req, res) => {
 	}
 };
 
-exports.getUsers = async (req, res) => {
+exports.deleteUser = async (req, res) => {
 	try {
-		const users = await User.find();
-		res.send(users);
+		await User.deleteOne({ _id: req.params.id });
+		res.status(200).json({ message: 'Utilisateur supprimé' });
 	} catch (e) {
-		res.status(400).send(e);
+		res.status(500).send(e);
+	}
+};
+
+exports.modifyUser = async (req, res) => {
+	try {
+		const user = await User.updateOne(
+			{ _id: req.params.id },
+			{ ...req.body, _id: req.params.id }
+		);
+	} catch (e) {
+		res.status(500).send(e);
 	}
 };

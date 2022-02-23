@@ -16,7 +16,7 @@ exports.createTopic = async (req, res) => {
 exports.getTopics = async (req, res) => {
 	try {
 		const topics = await Topic.find();
-		res.send(topics);
+		res.status(200).send(topics);
 	} catch (e) {
 		res.status(500).send(e);
 	}

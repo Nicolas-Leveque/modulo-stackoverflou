@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const userRouter = require('./router/user');
 const topicRouter = require('./router/topic');
+const messageRouter = require('./router/message');
 require('dotenv').config();
 
 const app = express();
@@ -29,4 +30,5 @@ mongoose
 
 app.use('/user', userRouter);
 app.use('/topic', topicRouter);
+app.use('/message', messageRouter);
 module.exports = app;
