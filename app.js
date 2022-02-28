@@ -28,7 +28,7 @@ mongoose
 	.then(() => console.log('connection successful'))
 	.catch(() => console.log('connection failed'));
 
-app.use('/user', userRouter);
-app.use('/topic', topicRouter);
-app.use('/message', messageRouter);
+app.use('/api/user', userRouter);
+app.use('/api/topic', topicRouter);
+app.use('/api/message', messageRouter);
 module.exports = app;
