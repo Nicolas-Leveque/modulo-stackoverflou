@@ -9,6 +9,8 @@ exports.register = async (req, res) => {
 		await user.save();
 		res.send({
 			userId: user._id,
+			nickName: user.nickName,
+			email: user.email,
 			token: jwt.sign(
 				{ userId: user._id, nickName: user.nickName, email: user.email },
 				process.env.JWT_SECRET,
