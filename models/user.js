@@ -3,40 +3,43 @@ const validator = require('validator');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-	firstName: {
-		type: String,
-		required: true,
-		trim: true,
+const userSchema = new mongoose.Schema(
+	{
+		firstName: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		lastName: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		nickName: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		email: {
+			type: String,
+			required: true,
+			trim: true,
+			unique: true,
+		},
+		password: {
+			type: String,
+			required: true,
+			trim: true,
+			minlenght: 8,
+		},
+		creationDate: {
+			type: Date,
+			default: Date.now,
+		},
 	},
-	lastName: {
-		type: String,
-		required: true,
-		trim: true,
-	},
-	nickName: {
-		type: String,
-		required: true,
-		trim: true,
-		unique: true,
-	},
-	email: {
-		type: String,
-		required: true,
-		trim: true,
-		unique: true,
-	},
-	password: {
-		type: String,
-		required: true,
-		trim: true,
-		minlenght: 8,
-	},
-	creationDate: {
-		type: Date,
-		default: Date.now,
-	},
-});
+	{ colletion: 'user' }
+);
 
 userSchema.plugin(uniqueValidator);
 

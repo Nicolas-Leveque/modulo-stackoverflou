@@ -2,12 +2,11 @@ const Topic = require('../models/topic');
 
 exports.createTopic = async (req, res) => {
 	try {
-		// const newTopic = { ...req.body }
 		const topic = new Topic({
 			...req.body,
 		});
-		await topic.save();
-		res.status(201).send({ message: 'Topic créé' });
+		const result = await topic.save();
+		res.status(201).send({ message: 'Topic créé' }, result);
 	} catch (e) {
 		res.status(500).send(e);
 	}

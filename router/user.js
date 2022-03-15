@@ -9,7 +9,8 @@ router.post('/login', userCtrl.login);
 router.delete('/:id', auth, userCtrl.deleteUser);
 router.put('/:id', auth, userCtrl.modifyUser);
 
-//route de vérification du token
-router.post('/token', userCtrl.refreshToken);
+//route de vérification et renouvellement du token
+router.get('/checkToken', auth, userCtrl.verifyToken);
+router.post('/token', auth, userCtrl.refreshToken);
 
 module.exports = router;

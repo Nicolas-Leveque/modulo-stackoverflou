@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
 			nickName: user.nickName,
 			email: user.email,
 			token: jwt.sign(
-				{ userId: user._id, nickName: user.nickName, email: user.email },
+				{ userId: user._id, email: user.email },
 				process.env.JWT_SECRET,
 				{
 					expiresIn: 60 * 60 * 24,
@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
 			nickName: user.nickName,
 			email: user.email,
 			token: jwt.sign(
-				{ userId: user._id, nickName: user.nickName, email: user.email },
+				{ userId: user._id, email: user.email },
 				process.env.JWT_SECRET,
 				{
 					expiresIn: 60 * 60 * 24,
@@ -77,7 +77,6 @@ exports.refreshToken = async (req, res) => {
 		const newToken = jwt.sign(
 			{
 				userId: isValid.userId,
-				nickName: isValid.nickName,
 				email: isValid.email,
 			},
 			process.env.JWT_SECRET,
@@ -86,6 +85,16 @@ exports.refreshToken = async (req, res) => {
 			}
 		);
 		res.status(200).json({ isValid, newToken });
+	} catch (e) {
+		res.status(500).send(e);
+	}
+};
+
+exports.verifyToken = async (req, res) => {
+	try {
+		const id = req.body._id;
+		const user = await User.findById(id);
+		res.status(200).send({ message: 'token valide' }, user);
 	} catch (e) {
 		res.status(500).send(e);
 	}
